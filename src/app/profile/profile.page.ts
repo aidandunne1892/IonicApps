@@ -3,11 +3,11 @@ import { ActionSheetController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  selector: 'app-profile',
+  templateUrl: 'profile.page.html',
+  styleUrls: ['profile.page.scss']
 })
-export class Tab2Page {
+export class ProfilePage {
 
   constructor(public actionSheetCtrl: ActionSheetController,public alertController: AlertController,) {}
 
