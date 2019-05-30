@@ -27,4 +27,22 @@
   Alert Button
 </ion-button>
 
+<ion-grid>
+  <ion-row>
+    <ion-col text-center>
+      Welcome to your Profile Page!
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col text-center>
+      Your Registered EmailID : {{userEmail}}
+    </ion-col>
+  </ion-row>
+</ion-grid>  
+
+<ion-button shape="round" expand="block" color="primary" fill="outline" (click)="logout()">
+    Logout
+  </ion-button>
+  
+
 </ion-content>

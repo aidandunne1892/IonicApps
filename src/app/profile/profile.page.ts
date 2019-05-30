@@ -1,6 +1,12 @@
+import { AngularFireAuth } from '@angular/fire/auth';
+import { UserService } from './../user.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Component } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router'
+import { NavController, ModalController } from '@ionic/angular';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-profile',
@@ -9,7 +15,36 @@ import { AlertController } from '@ionic/angular';
 })
 export class ProfilePage {
 
-  constructor(public actionSheetCtrl: ActionSheetController,public alertController: AlertController,) {}
+  userEmail: string;
+
+  constructor(
+    public actionSheetCtrl: ActionSheetController,
+    public alertController: AlertController,
+    private navCtrl: NavController,
+    private authService: AuthenticationService
+    ) {}
+  
+  
+  ngOnInit(){
+
+    if(this.authService.userDetails()){
+      this.userEmail = this.authService.userDetails().email;
+    }else{
+      this.navCtrl.navigateBack('/tabs/login');
+    }
+  }
+
+  logout(){
+    this.authService.logoutUser()
+    .then(res => {
+      console.log(res);
+      this.navCtrl.navigateBack('/tabs/login');
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
@@ -50,7 +85,7 @@ export class ProfilePage {
     });
     await actionSheet.present();
   }
-
+  
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Alert',

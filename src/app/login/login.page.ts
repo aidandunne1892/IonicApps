@@ -1,8 +1,12 @@
+import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth'
 import { auth } from 'firebase/app'
 import { Router } from '@angular/router'
 import { AlertController } from '@ionic/angular'
+import { NavController } from '@ionic/angular';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -11,37 +15,57 @@ import { AlertController } from '@ionic/angular'
 })
 export class LoginPage implements OnInit {
 
-  username: string = ""
-  password: string = ""
+
+  validations_form: FormGroup;
+  errorMessage: string = '';
 
   constructor(
-    public afAuth: AngularFireAuth,
+    private navCtrl: NavController,
+    private authService: AuthenticationService,
+    private formBuilder: FormBuilder,
     public alert: AlertController,
-    public router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
+    this.validations_form = this.formBuilder.group({
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ])),
+      password: new FormControl('', Validators.compose([
+        Validators.minLength(5),
+        Validators.required
+      ])),
+    });
   }
 
-
-
-  async login(){
-    const {username, password} = this
-    try {
-
-      const res = await this.afAuth.auth.signInWithEmailAndPassword(username + '@gmail.com', password)
-      this.router.navigate(['/tabs/profile'])
-
-    } catch(err) {
-
-      if(err.code == "auth/user-not-found"){
-        console.log("User Not found!")
-        this.showAlert("Error", "Invalid Password or Username")
-      }
-
-    }
+  validation_messages = {
+    'email': [
+      { type: 'required', message: 'Email is required.' },
+      { type: 'pattern', message: 'Please enter a valid email.' }
+    ],
+    'password': [
+      { type: 'required', message: 'Password is required.' },
+      { type: 'minlength', message: 'Password must be at least 5 characters long.' }
+    ]
+  };
+ 
+ 
+  loginUser(value){
+    this.authService.loginUser(value)
+    .then(res => {
+      console.log(res);
+      this.errorMessage = "";
+      this.navCtrl.navigateForward('/tabs/profile');
+      this.validations_form.reset();
+    }, err => {
+      this.errorMessage = err.message;
+    })
   }
-
+ 
+  goToRegisterPage(){
+    this.navCtrl.navigateForward('/tabs/register');
+  }
 
   async showAlert(header: string, message: string) {
     const alert = await this.alert.create({

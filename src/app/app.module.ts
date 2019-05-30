@@ -1,3 +1,5 @@
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { UserService } from './user.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -9,9 +11,15 @@ import { Camera } from '@ionic-native/camera/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import firebaseconfig from './firebase'
+import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth'
+import { IonicStorageModule } from '@ionic/storage';
+import { AuthenticationService } from './services/authentication.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import * as firebase from 'firebase';
+
+firebase.initializeApp(environment.firebase);
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,13 +28,17 @@ import { AngularFireAuthModule } from '@angular/fire/auth'
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFireModule.initializeApp(firebaseconfig),
-    AngularFireAuthModule],
+    ReactiveFormsModule,
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    IonicStorageModule.forRoot()],
   providers: [
     StatusBar,
     SplashScreen,
     Camera,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    AuthenticationService,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    UserService
   ],
   bootstrap: [AppComponent]
 })
