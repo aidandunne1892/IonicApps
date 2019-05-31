@@ -70,7 +70,7 @@ export class RegisterPage implements OnInit {
   }
  
   goLoginPage(){
-    this.navCtrl.navigateBack('/tabs/login');
+    this.navCtrl.navigateBack('/public/login');
   }
 
   async showAlert(header: string, message: string) {

@@ -30,7 +30,7 @@ export class ProfilePage {
     if(this.authService.userDetails()){
       this.userEmail = this.authService.userDetails().email;
     }else{
-      this.navCtrl.navigateBack('/tabs/login');
+      this.navCtrl.navigateBack('/public/login');
     }
   }
 
@@ -38,7 +38,7 @@ export class ProfilePage {
     this.authService.logoutUser()
     .then(res => {
       console.log(res);
-      this.navCtrl.navigateBack('/tabs/login');
+      this.navCtrl.navigateBack('/public/login');
     })
     .catch(error => {
       console.log(error);

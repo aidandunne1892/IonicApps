@@ -56,7 +56,7 @@ export class LoginPage implements OnInit {
     .then(res => {
       console.log(res);
       this.errorMessage = "";
-      this.navCtrl.navigateForward('/tabs/profile');
+      this.navCtrl.navigateForward('/private/profile');
       this.validations_form.reset();
     }, err => {
       this.errorMessage = err.message;
@@ -64,7 +64,7 @@ export class LoginPage implements OnInit {
   }
  
   goToRegisterPage(){
-    this.navCtrl.navigateForward('/tabs/register');
+    this.navCtrl.navigateForward('/public/register');
   }
 
   async showAlert(header: string, message: string) {

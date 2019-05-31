@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TabsPage } from './tabs.page';
+import { PublicPage } from './public.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
-    component: TabsPage,
+    path: 'public',
+    component: PublicPage,
     children: [
       {
         path: 'home',
@@ -13,33 +13,6 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../home/home.module#HomePageModule'
-          }
-        ]
-      },
-      {
-        path: 'profile',
-        children: [
-          {
-            path: '',
-            loadChildren: '../profile/profile.module#ProfilePageModule'
-          }
-        ]
-      },
-      {
-        path: 'feed',
-        children: [
-          {
-            path: '',
-            loadChildren: '../feed/feed.module#FeedPageModule'
-          }
-        ]
-      },
-      {
-        path: 'appointments',
-        children: [
-          {
-            path: '',
-            loadChildren: '../appointments/appointments.module#AppointmentsPageModule'
           }
         ]
       },
@@ -63,14 +36,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/home',
+        redirectTo: '/public/home',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/home',
+    redirectTo: '/public/home',
     pathMatch: 'full'
   }
 ];
@@ -81,4 +54,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class TabsPageRoutingModule {}
+export class PublicPageRoutingModule {}
