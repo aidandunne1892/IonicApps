@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -8,8 +8,8 @@ import { ToastController } from '@ionic/angular';
 })
 export class AppointmentsPage {
 
-  constructor(public toastController: ToastController) {}
-
+  constructor(public toastController: ToastController){}
+  
   async presentToast() {
    const toast = await this.toastController.create({
      buttons: [

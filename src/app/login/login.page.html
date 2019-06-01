@@ -5,37 +5,46 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-card>
   <form class="form" [formGroup]="validations_form"  (ngSubmit)="loginUser(validations_form.value)">
  
     <ion-item>
       <ion-label  position="floating" color="primary">Email</ion-label>
-      <ion-input type="text" formControlName="email"></ion-input>
+      <ion-input type="text" formControlName="email" [class.error1]="!validations_form.controls.email.valid && !!validations_form.controls.email.dirty"></ion-input>
     </ion-item>
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validation_messages.email">
-        <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
-          {{ validation.message }}
-        </div>
-      </ng-container>
-    </div>
- 
+    <ion-item no-lines *ngIf="( validations_form.get('email').hasError('minlength') || validations_form.get('email').hasError('pattern') || validations_form.get('email').hasError('required') ) && validations_form.get('email').touched">
+      <div class="error" *ngIf="validations_form.get('email').hasError('required') && validations_form.get('email').touched">
+        Please input your email
+      </div>
+      <div class="error" *ngIf="validations_form.get('email').hasError('pattern') && validations_form.get('email').touched">
+        Email address invalid
+      </div>
+    </ion-item>
+    
     <ion-item>
       <ion-label  position="floating" color="primary">Password</ion-label>
-      <ion-input type="password" formControlName="password" class="form-controll" required></ion-input>
+      <ion-input type="password" formControlName="password" class="form-controll" [class.error1]="!validations_form.controls.password.valid && !!validations_form.controls.password.dirty" required></ion-input>
     </ion-item>
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validation_messages.password">
-        <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
-          {{ validation.message }}
-        </div>
-      </ng-container>
+    <ion-item no-lines *ngIf="( validations_form.get('password').hasError('minlength') || validations_form.get('password').hasError('maxlength') || validations_form.get('password').hasError('required') ) && validations_form.get('password').touched">
+      <div class="error" *ngIf="validations_form.get('password').hasError('required') && validations_form.get('password').touched">
+        Please input your password
+      </div>
+      <div class="error" *ngIf="validations_form.get('password').hasError('minlength') && validations_form.get('password').touched">
+        Minimum 5 characters
+      </div>
+      <div class="error" *ngIf="validations_form.get('password').hasError('maxlength') && validations_form.get('password').touched">
+        Maximum 20 characters
+      </div>
+    </ion-item>
+    <br>
+    <div text-center>
+    <ion-button class="submit-btn" type="submit" color="primary" [disabled]="!validations_form.valid" >Log In</ion-button>
     </div>
- 
-    <ion-button expand="block" class="submit-btn" type="submit"  [disabled]="!validations_form.valid">Log In</ion-button>
- 
     <label class="error-message">{{errorMessage}}</label>
   </form>
   <p class="go-to-register">
     No account yet? <a (click)="goToRegisterPage()">Create an account.</a>
   </p>
+  </ion-card>
+
 </ion-content>
